@@ -3,7 +3,7 @@ import logging
 
 logger = logging.getLogger("Command Runner")
 
-def run_command(cmd, path):
+def run_cmd(cmd, path):
     
     try:
         result = subprocess.run(
