@@ -3,18 +3,18 @@ import logging
 
 logger = logging.getLogger("Command Runner")
 
-def run_cmd(cmd, path, is_ss_cmd: False):
+def run_cmd(cmd, path, is_ss_cmd=False):
     
     try:
         if is_ss_cmd:
             result = subprocess.run(
-            cmd, cwd=path,
+            cmd, cwd=path if path else None,
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
         )
         else:
             result = subprocess.run(
-                cmd, cwd=path,
+                cmd, cwd=path if path else None,
                 stderr=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 text=True

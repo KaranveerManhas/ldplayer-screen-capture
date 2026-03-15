@@ -8,20 +8,24 @@ class ADBManager:
         
         self.adb_path = None
         self.selected_device = None
-        self.screenshot_folder_path = os.path.join(os.getcwd, "screenshots")
+        self.screenshot_folder_path = os.path.join(os.getcwd(), "screenshots")
     
     def set_adb_path(self, path):
         
-        self.adb_path = path
+        self.adb_path = os.path.join(path, "adb.exe")
         
         return
 
     def get_devices(self):
         
+        print("ADB PATH:", self.adb_path)
         output = run_cmd([
-         "adb.exe",
+         self.adb_path,
          "devices"   
-        ], self.adb_path)
+        ], None, False)
+        
+        if not output:
+            return []
         
         devices = []
         
@@ -48,13 +52,13 @@ class ADBManager:
         screenshot_filepath = os.path.join(self.screenshot_folder_path, f"{filename}.png")
         
         output = run_cmd([
-            "adb.exe",
+            self.adb_path,
             "-s",
             self.selected_device,
             "exec-out",
             "screencap",
             "-p"
-        ], self.adb_path, True)
+        ], None, True)
         
         with open(screenshot_filepath, "wb") as f:
             f.write(output.stdout)
