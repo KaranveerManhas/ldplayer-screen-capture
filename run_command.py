@@ -3,15 +3,22 @@ import logging
 
 logger = logging.getLogger("Command Runner")
 
-def run_cmd(cmd, path):
+def run_cmd(cmd, path, is_ss_cmd: False):
     
     try:
-        result = subprocess.run(
+        if is_ss_cmd:
+            result = subprocess.run(
             cmd, cwd=path,
             stderr=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            text=True
         )
+        else:
+            result = subprocess.run(
+                cmd, cwd=path,
+                stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                text=True
+            )
     except Exception as e:
         logger.error("Command failed: %s", e)
         return None
